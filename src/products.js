@@ -1,10 +1,12 @@
 const data = require('../server/index');
-const moment = require('moment');
 const getProducts = () => data().products;
 
 const dateToDisplay = date => {
-  if (moment().diff(moment(date), 'days') > 7) return moment(date).format('LL');
-  return moment(date).fromNow();
+  const today = new Date();
+  const previousDay = new Date(date);
+  const numberOfDays = parseInt((today - previousDay) / 8.64e7, 10);
+  if (numberOfDays > 7) return previousDay.toLocaleDateString();
+  return numberOfDays + ' day(s) ago';
 };
 
 const element = item =>
@@ -31,7 +33,6 @@ const sortProducts = sortBy => {
   const reArrangeProducts = products => {
     document.getElementById('root').innerHTML = null;
     products.map(item => {
-      console.log(moment(item.date).fromNow()[0]);
       document.getElementById('root').insertAdjacentHTML('beforeend', element(item));
     });
   };
