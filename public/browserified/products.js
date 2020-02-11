@@ -6977,7 +6977,9 @@ const element = item =>
   `<div class="product">
     <span style="font-size: ${item.size}px;">${item.face}</span>
     <span class="id">ID: ${item.id}</span>
-    <span class="price">Price: ${item.price}</span>
+    <span class="price">
+      Price: ${(item.price / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
+    </span>
     <span class="size">Size: ${item.size}</span>
 </div>`;
 
