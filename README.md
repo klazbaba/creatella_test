@@ -12,7 +12,6 @@ Please read the instructions and FAQ below before beginning.
 
   - a "size" field, which is the font-size (in pixels). We should display the faces in their correct size, to give customers a realistic impression of what they're buying.
   - a "price" field, in cents. This should be formatted as dollars like `$3.51`.
-
   - a "date" field, which is the date the product was added to the catalog. Dates should be displayed in relative time (eg. "3 days ago") unless they are older than 1 week, in which case the full date should be displayed.
 
 - the product grid should automatically load more items as you scroll down.

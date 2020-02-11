@@ -2,6 +2,11 @@ const data = require('../server/index');
 const moment = require('moment');
 const getProducts = () => data().products;
 
+const dateToDisplay = date => {
+  if (moment().diff(moment(date), 'days') > 7) return moment(date).format('LL');
+  return moment(date).fromNow();
+};
+
 const element = item =>
   `<div class="product">
     <span style="font-size: ${item.size}px;">${item.face}</span>
@@ -10,11 +15,7 @@ const element = item =>
       Price: ${(item.price / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
     </span>
     <span class="size">Size: ${item.size}</span>
-    <span class="size">Date: ${
-      moment(item.date).fromNow()[0] < 8
-        ? moment(item.date).fromNow()
-        : moment(item.date).format('MMM Do YYYY')
-    }</span>
+    <span class="size">Date: ${dateToDisplay(item.date)}</span>
 </div>`;
 
 getProducts().map(item =>
