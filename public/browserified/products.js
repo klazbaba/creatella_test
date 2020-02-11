@@ -6975,7 +6975,7 @@ const getProducts = () => data().products;
 
 const element = item =>
   `<div class="product">
-    <span>${item.face}</span>
+    <span style="font-size: ${item.size}px;">${item.face}</span>
     <span class="id">ID: ${item.id}</span>
     <span class="price">Price: ${item.price}</span>
     <span class="size">Size: ${item.size}</span>
@@ -6990,12 +6990,18 @@ document.getElementById('sizeButton').addEventListener('click', () => sortProduc
 document.getElementById('priceButton').addEventListener('click', () => sortProducts('price'));
 
 const sortProducts = sortBy => {
+  // for re arranging
   const reArrangeProducts = products => {
     document.getElementById('root').innerHTML = null;
     products.map(item => {
       document.getElementById('root').insertAdjacentHTML('beforeend', element(item));
     });
   };
+
+  // show user which sorting order is used
+  const sortButtons = document.getElementsByClassName('sortButton');
+  for (const button of sortButtons) button.style.backgroundColor = 'white';
+  document.getElementById(sortBy + 'Button').style.backgroundColor = '#A9A9A9';
 
   const products = getProducts();
   switch (sortBy) {
