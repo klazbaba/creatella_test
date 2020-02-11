@@ -30,3 +30,15 @@
 .id {
   margin-top: 16px;
 }
+
+#sortArea {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 50px;
+}
+
+.sortButton {
+  padding: 16px;
+  min-width: 150px;
+  border-radius: 8px;
+}
