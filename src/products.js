@@ -1,4 +1,5 @@
 const data = require('../server/index');
+const moment = require('moment');
 const getProducts = () => data().products;
 
 const element = item =>
@@ -9,11 +10,16 @@ const element = item =>
       Price: ${(item.price / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
     </span>
     <span class="size">Size: ${item.size}</span>
+    <span class="size">Date: ${
+      moment(item.date).fromNow()[0] < 8
+        ? moment(item.date).fromNow()
+        : moment(item.date).format('MMM Do YYYY')
+    }</span>
 </div>`;
 
-getProducts().map(item => {
-  document.getElementById('root').insertAdjacentHTML('beforeend', element(item));
-});
+getProducts().map(item =>
+  document.getElementById('root').insertAdjacentHTML('beforeend', element(item))
+);
 
 document.getElementById('idButton').addEventListener('click', () => sortProducts('id'));
 document.getElementById('sizeButton').addEventListener('click', () => sortProducts('size'));
@@ -24,6 +30,7 @@ const sortProducts = sortBy => {
   const reArrangeProducts = products => {
     document.getElementById('root').innerHTML = null;
     products.map(item => {
+      console.log(moment(item.date).fromNow()[0]);
       document.getElementById('root').insertAdjacentHTML('beforeend', element(item));
     });
   };
