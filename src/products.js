@@ -1,6 +1,4 @@
-const data = require('../server/index');
 const throttle = require('lodash/throttle');
-const getProducts = () => data().products;
 
 const dateToDisplay = date => {
   const today = new Date();
@@ -21,8 +19,18 @@ const element = item =>
     <span class="size">Date: ${dateToDisplay(item.date)}</span>
 </div>`;
 
-getProducts().map(item =>
-  document.getElementById('root').insertAdjacentHTML('beforeend', element(item))
+const getProducts = async () => {
+  const response = await fetch('http://localhost:3000/products');
+  const jsonResponse = await response.json();
+  return jsonResponse;
+};
+
+console.log('to console: ', getProducts());
+
+getProducts().then(products =>
+  products.map(item =>
+    document.getElementById('root').insertAdjacentHTML('beforeend', element(item))
+  )
 );
 
 document.getElementById('idButton').addEventListener('click', () => sortProducts('id'));
