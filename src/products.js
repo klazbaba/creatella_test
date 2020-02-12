@@ -1,4 +1,5 @@
 const data = require('../server/index');
+const throttle = require('lodash/throttle');
 const getProducts = () => data().products;
 
 const dateToDisplay = date => {
@@ -68,3 +69,10 @@ const sortProducts = sortBy => {
       break;
   }
 };
+
+const throttledFunction = throttle(() => {
+  const windowHeight = document.getElementById('root').scrollHeight;
+  if (windowHeight - window.pageYOffset < 1000) console.log(windowHeight - window.pageYOffset);
+}, 3000);
+
+document.addEventListener('scroll', throttledFunction);
