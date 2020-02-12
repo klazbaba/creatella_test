@@ -615,7 +615,7 @@ const getProducts = async () => {
 
 getProducts().then(products => {
   let currentAdvert = Math.floor(Math.random() * 1000);
-  currentAdvert = lastAdvert !== currentAdvert ? currentAdvert : currentAdvert + 1;
+  currentAdvert = lastAdvert !== currentAdvert ? currentAdvert : currentAdvert - 1;
 
   products.map(item =>
     document.getElementById('root').insertAdjacentHTML('beforeend', element(item))
@@ -670,7 +670,10 @@ const throttledFunction = throttle(async () => {
     }
 
     let currentAdvert = Math.floor(Math.random() * 1000);
-    currentAdvert = lastAdvert !== currentAdvert ? currentAdvert : currentAdvert + 1;
+    currentAdvert = lastAdvert !== currentAdvert ? currentAdvert : currentAdvert - 1;
+
+    console.log('last advert: ', lastAdvert);
+    console.log('current advert: ', currentAdvert);
 
     products.map(item =>
       document.getElementById('root').insertAdjacentHTML('beforeend', element(item))

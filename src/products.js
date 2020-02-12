@@ -33,7 +33,7 @@ const getProducts = async () => {
 
 getProducts().then(products => {
   let currentAdvert = Math.floor(Math.random() * 1000);
-  currentAdvert = lastAdvert !== currentAdvert ? currentAdvert : currentAdvert + 1;
+  currentAdvert = lastAdvert !== currentAdvert ? currentAdvert : currentAdvert - 1;
 
   products.map(item =>
     document.getElementById('root').insertAdjacentHTML('beforeend', element(item))
@@ -87,8 +87,9 @@ const throttledFunction = throttle(async () => {
       endOfCatalogue++;
     }
 
+    // this is to ensure no image follows itself consecutively.
     let currentAdvert = Math.floor(Math.random() * 1000);
-    currentAdvert = lastAdvert !== currentAdvert ? currentAdvert : currentAdvert + 1;
+    currentAdvert = lastAdvert !== currentAdvert ? currentAdvert : currentAdvert - 1;
 
     products.map(item =>
       document.getElementById('root').insertAdjacentHTML('beforeend', element(item))
