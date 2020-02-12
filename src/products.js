@@ -73,11 +73,11 @@ const sortProducts = sortWith => {
 const throttledFunction = throttle(async () => {
   const windowHeight = document.getElementById('root').scrollHeight;
 
-  if (windowHeight - window.pageYOffset < 2200 && !endOfCatalogue) {
+  if (windowHeight - window.pageYOffset < 2500 && !endOfCatalogue) {
     currentPage++;
     const products = await getProducts();
 
-    if (products.length === 0 && !endOfCatalogue) {
+    if (products.length === 0 && endOfCatalogue === 0) {
       document
         .getElementById('productsSection')
         .insertAdjacentHTML(
