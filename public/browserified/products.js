@@ -584,6 +584,7 @@ const throttle = require('lodash/throttle');
 let currentPage = 1;
 let endOfCatalogue = 0;
 let sortBy = 'id';
+let lastAdvert = 0;
 
 const dateToDisplay = date => {
   const today = new Date();
@@ -605,7 +606,6 @@ const element = item =>
 </div>`;
 
 const getProducts = async () => {
-  console.log('sorting by: ', sortBy);
   const response = await fetch(
     'http://localhost:3000/products?_page=' + currentPage + '&_limit=20&_sort=' + sortBy
   );
@@ -613,24 +613,30 @@ const getProducts = async () => {
   return jsonResponse;
 };
 
-getProducts().then(products =>
+getProducts().then(products => {
+  let currentAdvert = Math.floor(Math.random() * 1000);
+  currentAdvert = lastAdvert !== currentAdvert ? currentAdvert : currentAdvert + 1;
+
   products.map(item =>
     document.getElementById('root').insertAdjacentHTML('beforeend', element(item))
-  )
-);
+  );
+  document
+    .getElementById('root')
+    .insertAdjacentHTML(
+      'beforeend',
+      `<div style="width: 100%; margin-top: 16px; margin-bottom: 16px">${'<img class="ad" src="/ads/?r=' +
+        currentAdvert +
+        '"/>'}</div>`
+    );
+
+  lastAdvert = currentAdvert;
+});
 
 document.getElementById('idButton').addEventListener('click', () => sortProducts('id'));
 document.getElementById('sizeButton').addEventListener('click', () => sortProducts('size'));
 document.getElementById('priceButton').addEventListener('click', () => sortProducts('price'));
 
 const sortProducts = sortWith => {
-  // for re arranging
-  // const reArrangeProducts = products => {
-  //   document.getElementById('root').innerHTML = null;
-  //   products.map(item => {
-  //     document.getElementById('root').insertAdjacentHTML('beforeend', element(item));
-  //   });
-  // };
   sortBy = sortWith;
 
   // show user which sorting order is used
@@ -640,41 +646,16 @@ const sortProducts = sortWith => {
 
   getProducts().then(products => {
     document.getElementById('root').innerHTML = null;
-    console.log(products);
     products.map(item => {
       document.getElementById('root').insertAdjacentHTML('beforeend', element(item));
     });
-    // switch (sortBy) {
-    //   case 'id':
-    // products.sort((firstItem, secondItem) => {
-    //   if (firstItem.id < secondItem.id) return -1;
-    //   else if (firstItem.id > secondItem.id) return 1;
-    //   else return 0;
-    // });
-    //   reArrangeProducts(products);
-    //   break;
-    // case 'size':
-    //   products.sort((firstItem, secondItem) => {
-    //     return firstItem.size - secondItem.size;
-    //   });
-    //   reArrangeProducts(products);
-    //   break;
-    // case 'price':
-    // products.sort((firstItem, secondItem) => {
-    //   return firstItem.price - secondItem.price;
-    // });
-    //   reArrangeProducts(products);
-    //   break;
-    // default:
-    //   break;
-    // }
   });
 };
 
 const throttledFunction = throttle(async () => {
   const windowHeight = document.getElementById('root').scrollHeight;
 
-  if (windowHeight - window.pageYOffset < 1200) {
+  if (windowHeight - window.pageYOffset < 2000) {
     currentPage++;
     const products = await getProducts();
 
@@ -683,13 +664,27 @@ const throttledFunction = throttle(async () => {
         .getElementById('productsSection')
         .insertAdjacentHTML(
           'beforeend',
-          `<div style="margin-top: 16px; display: flex; justifyContent: center">~ end of catalogue ~</div>`
+          `<div style="margin-top: 16px; display: flex; justifyContent: center"><span>~ end of catalogue ~</span></div>`
         );
       endOfCatalogue++;
     }
+
+    let currentAdvert = Math.floor(Math.random() * 1000);
+    currentAdvert = lastAdvert !== currentAdvert ? currentAdvert : currentAdvert + 1;
+
     products.map(item =>
       document.getElementById('root').insertAdjacentHTML('beforeend', element(item))
     );
+    document
+      .getElementById('root')
+      .insertAdjacentHTML(
+        'beforeend',
+        `<div style="width: 100%"; margin-top: 16px; margin-bottom: 16px;>${'<img class="ad" src="/ads/?r=' +
+          currentAdvert +
+          '"/>'}</div>`
+      );
+
+    lastAdvert = currentAdvert;
   }
 }, 3000);
 
