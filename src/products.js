@@ -73,7 +73,7 @@ const sortProducts = sortWith => {
 const throttledFunction = throttle(async () => {
   const windowHeight = document.getElementById('root').scrollHeight;
 
-  if (windowHeight - window.pageYOffset < 2000) {
+  if (windowHeight - window.pageYOffset < 2200 && !endOfCatalogue) {
     currentPage++;
     const products = await getProducts();
 
