@@ -659,7 +659,7 @@ const throttledFunction = throttle(async () => {
     currentPage++;
     const products = await getProducts();
 
-    if (products.length === 0 && endOfCatalogue === 0) {
+    if (products.length === 0 || endOfCatalogue !== 0) {
       document
         .getElementById('productsSection')
         .insertAdjacentHTML(
@@ -667,13 +667,12 @@ const throttledFunction = throttle(async () => {
           `<div style="margin-top: 16px; display: flex; justifyContent: center"><span>~ end of catalogue ~</span></div>`
         );
       endOfCatalogue++;
+      return;
     }
 
+    // this is to ensure no image follows itself consecutively.
     let currentAdvert = Math.floor(Math.random() * 1000);
     currentAdvert = lastAdvert !== currentAdvert ? currentAdvert : currentAdvert - 1;
-
-    console.log('last advert: ', lastAdvert);
-    console.log('current advert: ', currentAdvert);
 
     products.map(item =>
       document.getElementById('root').insertAdjacentHTML('beforeend', element(item))

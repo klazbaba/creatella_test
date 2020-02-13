@@ -77,7 +77,7 @@ const throttledFunction = throttle(async () => {
     currentPage++;
     const products = await getProducts();
 
-    if (products.length === 0 && endOfCatalogue === 0) {
+    if (products.length === 0 || endOfCatalogue !== 0) {
       document
         .getElementById('productsSection')
         .insertAdjacentHTML(
@@ -85,6 +85,7 @@ const throttledFunction = throttle(async () => {
           `<div style="margin-top: 16px; display: flex; justifyContent: center"><span>~ end of catalogue ~</span></div>`
         );
       endOfCatalogue++;
+      return;
     }
 
     // this is to ensure no image follows itself consecutively.

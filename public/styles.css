@@ -39,8 +39,11 @@
 
 .sortButton {
   padding: 16px;
-  min-width: 150px;
+  width: 15%;
   border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #idButton {
