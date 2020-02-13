@@ -15,11 +15,6 @@ class Loading extends React.Component {
     }, 1000);
   };
 
-  componentDidUpdate = () => {
-    // here, we check if the user has loaded all of the products, then we set this.state.isLoading to be false
-    // this way, the loading animation stops
-  };
-
   render() {
     return e(
       'span',
