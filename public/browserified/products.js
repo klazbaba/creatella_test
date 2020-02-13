@@ -589,6 +589,8 @@ let lastAdvert = 0;
 const dateToDisplay = date => {
   const today = new Date();
   const previousDay = new Date(date);
+
+  // 8.64e7 is the number of milliseconds in a day
   const numberOfDays = parseInt((today - previousDay) / 8.64e7, 10);
   if (numberOfDays > 7) return previousDay.toLocaleDateString();
   return numberOfDays + ' day(s) ago';
@@ -671,8 +673,8 @@ const throttledFunction = throttle(async () => {
       return;
     }
 
-    // this is to ensure no image follows itself consecutively.
     let currentAdvert = Math.floor(Math.random() * 1000);
+    // this is to ensure no image follows itself consecutively.
     currentAdvert = lastAdvert !== currentAdvert ? currentAdvert : currentAdvert - 1;
 
     products.map(item =>
@@ -682,7 +684,7 @@ const throttledFunction = throttle(async () => {
       .getElementById('root')
       .insertAdjacentHTML(
         'beforeend',
-        `<div style="width: 100%"; margin-top: 16px; margin-bottom: 16px;>${'<img class="ad" src="/ads/?r=' +
+        `<div style="width: 100%; margin-top: 16px; margin-bottom: 16px;">${'<img class="ad" src="/ads/?r=' +
           currentAdvert +
           '"/>'}</div>`
       );
